@@ -29,15 +29,13 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
+//Prototype for finding the file path of the the cached background image:
+string getFilepath();
+
 //Prototype for deleting a system file (background image in this case):
-/*
 BOOL WINAPI DeleteFile(
 	_In_ LPCTSTR lpFileName
 );
-*/
-
-//Prototype for finding the file path of the the cached background image:
-string getFilepath();
 
 int CALLBACK WinMain(
 	_In_ HINSTANCE hInstance,
@@ -178,29 +176,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//possibly include this becasue popen isnt working??? popen only works on Linux machines
-FILE * _popen(const char * command, const char * mode)
-{
-	return nullptr;
-}
-
-string getFilepath()
-{
-	char *array = new char[500];
-	for (int i = 0; i < 500; i++) {
-		
-	}
-	//use popen()
-	string command = "dir";
-	FILE* pipe = popen(command.c_str(), "r");
-
-	fgets(array, 500, pipe);
-
-	string filePath(array);
-
-	//Change the char array to a string
-
-	return filePath;
-}\
-
 //instead of pipe i could use fork
+string getFilepath() {
+	char* args[] = {"./Win8_WP_Curr_Image_Name.vbs", NULL};
+	
+	string VBSScriptOutput = "";
+
+	pid_t pid = fork();
+
+	if (pid == -1)
+		perror("fork() failed");
+	if (pid > 0) {
+		VBSScriptOutput = execvp(args[0], args);
+	}
+
+}

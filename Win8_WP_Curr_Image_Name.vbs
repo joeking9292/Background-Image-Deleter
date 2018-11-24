@@ -36,7 +36,7 @@ strEr1       = "Error "
 strSingle    = " "
 strSelect    = " /select,"
 strExplor    = "   "
-opt          =  2         '1= Display File Name Only  -  2=Display Folder w/ File Name Selected
+opt          =  1         '1= Display File Name Only  -  2=Display Folder w/ File Name Selected
 
 strPath      = ""                          'Path Name w/ leading blanks removed
 sQ1          = """"                        'A QUOTE mark
