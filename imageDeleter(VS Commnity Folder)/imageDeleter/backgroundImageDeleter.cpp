@@ -29,15 +29,13 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
+//Prototype for finding the file path of the the cached background image:
+//string getFilepath();
+
 //Prototype for deleting a system file (background image in this case):
-/*
 BOOL WINAPI DeleteFile(
 	_In_ LPCTSTR lpFileName
 );
-*/
-
-//Prototype for finding the file path of the the cached background image:
-string getFilepath();
 
 int CALLBACK WinMain(
 	_In_ HINSTANCE hInstance,
@@ -56,7 +54,8 @@ int CALLBACK WinMain(
 	wcex.hInstance = hInstance;
 	wcex.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.hbrBackground = CreateSolidBrush(RGB(255, 0, 0)); // Paint background red
+	//wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, IDI_APPLICATION);
@@ -79,7 +78,7 @@ int CALLBACK WinMain(
 	// szTitle: the text that appears in the title bar
 	// WS_OVERLAPPEDWINDOW: the type of window to create
 	// 1407, 0: initial position (x, y) (top right of screen). Can't figure out how to put it in top right all the time.
-	// 110, 130: initial size (width, length)
+	// 100, 75: initial size (width, length)
 	// NULL: the parent of this window
 	// NULL: this application does not have a menu bar
 	// hInstance: the first parameter from WinMain
@@ -89,7 +88,7 @@ int CALLBACK WinMain(
 		szTitle,
 		WS_OVERLAPPEDWINDOW,
 		1407, 0,
-		110, 130,
+		100, 77,
 		NULL,
 		NULL,
 		hInstance,
@@ -141,7 +140,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		button = CreateWindow(TEXT("button"), TEXT("DELETE"),
 			WS_VISIBLE | WS_CHILD | BS_FLAT | BS_ICON,
-			5, 5, 110, 80, hWnd, (HMENU) 1, NULL, NULL
+			5, 5, 38, 28, hWnd, (HMENU) 1, NULL, NULL
+		);
+		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1)); //Find out how to have button fill the whole button space.
+		SendMessage(button, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
+
+		button = CreateWindow(TEXT("button"), TEXT("DELETE"),
+			WS_VISIBLE | WS_CHILD | BS_FLAT | BS_ICON,
+			77, 5, 38, 28, hWnd, (HMENU)1, NULL, NULL
 		);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1)); //Find out how to have button fill the whole button space.
 		SendMessage(button, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
@@ -178,29 +184,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//possibly include this becasue popen isnt working??? popen only works on Linux machines
-FILE * _popen(const char * command, const char * mode)
-{
-	return nullptr;
-}
 
-string getFilepath()
-{
-	char *array = new char[500];
-	for (int i = 0; i < 500; i++) {
-		
-	}
-	//use popen()
-	string command = "dir";
-	FILE* pipe = popen(command.c_str(), "r");
-
-	fgets(array, 500, pipe);
-
-	string filePath(array);
-
-	//Change the char array to a string
-
-	return filePath;
-}\
-
+/*
 //instead of pipe i could use fork
+string getFilepath() {
+	char* args[] = {"./Win8_WP_Curr_Image_Name.vbs", NULL};
+	
+	string VBSScriptOutput = "";
+
+	pid_t pid = fork();
+
+	if (pid == -1)
+		perror("fork() failed");
+	if (pid > 0) {
+		VBSScriptOutput = execvp(args[0], args);
+	}
+
+}
+*/

@@ -1,4 +1,4 @@
 ﻿  backgroundImageDeleter.cpp
-c:\background image deleter\imagedeleter(vs commnity folder)\imagedeleter\backgroundimagedeleter.cpp(183): warning C4273: '_popen': inconsistent dll linkage
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(332): note: see previous definition of '_popen'
-c:\background image deleter\imagedeleter(vs commnity folder)\imagedeleter\backgroundimagedeleter.cpp(195): error C3861: 'popen': identifier not found
+c:\background image deleter\imagedeleter(vs commnity folder)\imagedeleter\backgroundimagedeleter.cpp(38): warning C4273: 'DeleteFileW': inconsistent dll linkage
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\fileapi.h(183): note: see previous definition of 'DeleteFileW'
+  imageDeleter.vcxproj -> C:\Background Image Deleter\imageDeleter(VS Commnity Folder)\Debug\imageDeleter.exe
